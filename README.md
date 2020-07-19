@@ -7,7 +7,7 @@ A set of common javascript and sass tools
 #### Node
 Install the package
 ```bash
-npm i cutleryjs
+npm i cutleryjs --save
 ```
 Import with ES6 modules
 ```js
