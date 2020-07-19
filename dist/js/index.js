@@ -1,5 +1,5 @@
 /*!
-* cutlery.js 1.1.4 - https://github.com/lennertderyck/cutleryjs
+* cutlery.js 1.3.0 - https://github.com/lennertderyck/cutleryjs
 * Licensed under the GNU GPLv3 license - https://choosealicense.com/licenses/gpl-3.0/#
 *
 * Copyright (c) 2020 Lennert De Ryck
@@ -60,6 +60,18 @@ class Element {
         }
     }
     
+    prepend(node = 'html body', type = 'selector') {
+        if (typeof node == 'string') node = document.querySelector(node)
+        else if (typeof node == 'object') node = node
+        
+        try {node.prepend(this.el);}
+        catch (err) {
+            console.error('Something went wrong when adding an element. You\'ve probably entered a wrong selector or node element. We logged this element and the error message for you convenience:');
+            console.log(err);
+            console.log(this.el);
+        }
+    }
+    
     return() {
         return this.el;
     }
@@ -74,8 +86,31 @@ const eventCallback = (selector, callback, action = true) => {
     if (target) callback(target);
 }
 
+const getFormData = (formNode) => {
+    // https://stackoverflow.com/a/14438954/9357283
+    
+    const names = new Set();
+    const formData = new FormData(formNode);
+    const returnData = new Map();
+    const nameElements = formNode.querySelectorAll('[name]');
+    
+    nameElements.forEach(node => {
+        names.add({
+            name: node.getAttribute('name'),
+            type: node.getAttribute('type') || 'textarea'
+        });
+    });
+    
+    names.forEach(i => {
+        returnData.set(i.name, i.type == 'number' ? parseFloat(formData.get(i.name)) : formData.get(i.name))
+    })
+    
+    return returnData;
+}
+
 export {
     node,
     Element,
-    eventCallback
+    eventCallback,
+    getFormData
 }

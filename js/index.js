@@ -79,8 +79,31 @@ const eventCallback = (selector, callback, action = true) => {
     if (target) callback(target);
 }
 
+const getFormData = (formNode) => {
+    // https://stackoverflow.com/a/14438954/9357283
+    
+    const names = new Set();
+    const formData = new FormData(formNode);
+    const returnData = new Map();
+    const nameElements = formNode.querySelectorAll('[name]');
+    
+    nameElements.forEach(node => {
+        names.add({
+            name: node.getAttribute('name'),
+            type: node.getAttribute('type') || 'textarea'
+        });
+    });
+    
+    names.forEach(i => {
+        returnData.set(i.name, i.type == 'number' ? parseFloat(formData.get(i.name)) : formData.get(i.name))
+    })
+    
+    return returnData;
+}
+
 export {
     node,
     Element,
-    eventCallback
+    eventCallback,
+    getFormData
 }
