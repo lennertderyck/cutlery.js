@@ -15,7 +15,7 @@ const copyright =
 
 const options = {
     src: './scss/index.scss',
-    out: './dist/scss'
+    out: './dist/css'
 };
 
 const write = {
