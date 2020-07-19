@@ -67,3 +67,8 @@ const eventCallback = (selector, callback, action = true) => {
     if (target) callback(target);
 }
 
+export {
+    node,
+    Element,
+    eventCallback
+}

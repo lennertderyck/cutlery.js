@@ -1,5 +1,5 @@
 /*!
-* cutlery.js 1.1.2 - https://github.com/lennertderyck/cutleryjs
+* cutlery.js 1.1.3 - https://github.com/lennertderyck/cutleryjs
 * Licensed under the GNU GPLv3 license - https://choosealicense.com/licenses/gpl-3.0/#
 *
 * Copyright (c) 2020 Lennert De Ryck
@@ -74,3 +74,8 @@ const eventCallback = (selector, callback, action = true) => {
     if (target) callback(target);
 }
 
+export {
+    node,
+    Element,
+    eventCallback
+}
