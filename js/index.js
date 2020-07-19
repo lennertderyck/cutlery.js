@@ -53,6 +53,18 @@ class Element {
         }
     }
     
+    prepend(node = 'html body', type = 'selector') {
+        if (typeof node == 'string') node = document.querySelector(node)
+        else if (typeof node == 'object') node = node
+        
+        try {node.prepend(this.el);}
+        catch (err) {
+            console.error('Something went wrong when adding an element. You\'ve probably entered a wrong selector or node element. We logged this element and the error message for you convenience:');
+            console.log(err);
+            console.log(this.el);
+        }
+    }
+    
     return() {
         return this.el;
     }
