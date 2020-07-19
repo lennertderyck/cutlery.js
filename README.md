@@ -5,8 +5,13 @@ A set of common javascript and sass tools
 
 ## Install
 #### Node
+Install the package
 ```bash
 npm i cutleryjs
+```
+Import with ES6 modules
+```js
+import {node, Element, eventCallback) from 'cutleryjs'
 ```
 
 #### CDN
