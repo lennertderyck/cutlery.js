@@ -1,2 +1,2 @@
 # cutlery.js
-A set of javascript functions
+A set of common javascript and sass tools
