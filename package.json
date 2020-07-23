@@ -1,6 +1,6 @@
 {
   "name": "cutleryjs",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "A set of common javascript and sass tools",
   "main": "dist/js/index.js",
   "type": "module",
