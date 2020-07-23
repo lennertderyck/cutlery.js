@@ -107,9 +107,9 @@ const cookies = {
         if (days) {
             const date = new Date();
             date.setTime(date.getTime()+(days*24*60*60*1000));
-            const expires = "expires="+date.toGMTString();
+            var expires = "expires="+date.toGMTString();
         }
-        else const expires = '';
+        else var expires = '';
         document.cookie = `${name}=${value}; ${expires}; path=/`
     },
     

@@ -1,5 +1,5 @@
 /*!
-* cutlery.js 1.4.1 - https://github.com/lennertderyck/cutleryjs
+* cutlery.js 1.4.2 - https://github.com/lennertderyck/cutleryjs
 * Licensed under the GNU GPLv3 license - https://choosealicense.com/licenses/gpl-3.0/#
 *
 * Copyright (c) 2020 Lennert De Ryck
@@ -114,9 +114,9 @@ const cookies = {
         if (days) {
             const date = new Date();
             date.setTime(date.getTime()+(days*24*60*60*1000));
-            const expires = "expires="+date.toGMTString();
+            var expires = "expires="+date.toGMTString();
         }
-        else const expires = '';
+        else var expires = '';
         document.cookie = `${name}=${value}; ${expires}; path=/`
     },
     
