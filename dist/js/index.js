@@ -1,5 +1,5 @@
 /*!
-* cutlery.js 1.4.2 - https://github.com/lennertderyck/cutleryjs
+* cutlery.js 1.5.0 - https://github.com/lennertderyck/cutleryjs
 * Licensed under the GNU GPLv3 license - https://choosealicense.com/licenses/gpl-3.0/#
 *
 * Copyright (c) 2020 Lennert De Ryck
@@ -108,7 +108,6 @@ const getFormData = (formNode) => {
     return returnData;
 }
 
-
 const cookies = {
     set(name, value, days) {
         if (days) {
@@ -132,10 +131,22 @@ const cookies = {
     },
 }
 
+const fetchAPI = async (url) => {
+    try {
+        let response = await fetch(url)
+        let data = await response.json();
+        return data;
+    }
+    catch {
+        throw new Error('Something went really wrong fetching this api', url)
+    }
+}
+
 export {
     node,
     Element,
     eventCallback,
     getFormData,
-    cookies
+    cookies,
+    fetchAPI
 }
