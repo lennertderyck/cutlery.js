@@ -1,8 +1,8 @@
 {
   "name": "cutleryjs",
-  "version": "1.5.0",
+  "version": "1.8.0",
   "description": "A set of common javascript and sass tools",
-  "main": "dist/js/index.js",
+  "main": "dist/js/index.min.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -28,6 +28,10 @@
     "minify": "^5.1.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.11.0",
+    "@babel/plugin-transform-arrow-functions": "^7.10.4",
+    "@babel/plugin-transform-modules-commonjs": "^7.10.4",
+    "babel-preset-minify": "^0.5.1",
     "sass": "^1.26.10"
   }
 }

@@ -124,14 +124,63 @@ const cookies = {
     },
 }
 
-const fetchAPI = async (url) => {
-    try {
-        let response = await fetch(url)
-        let data = await response.json();
-        return data;
+const fetchAPI = {
+    async json(url, options = {method: 'GET'}) {
+        try {
+            let response = await fetch(url, options)
+            let data = await response.json();
+            return data;
+        }
+        catch {
+            throw new Error('Something went really wrong fetching this api', url)
+        }
+    },
+    
+    async text(url, options = {method: 'GET'}) {
+        try {
+            let response = await fetch(url, options)
+            let data = await response.text();
+            return data;
+        }
+        catch {
+            throw new Error('Something went really wrong fetching this api', url)
+        }
     }
-    catch {
-        throw new Error('Something went really wrong fetching this api', url)
+}
+
+class Api {
+    constructor(url, options = {method: 'GET'}) {
+        this.url = url;
+        this.options = options
+    }
+    
+    async fetch(options = this.options) {
+        try {
+            this.response = await fetch(url, options)
+            return this.response;
+        }
+        catch {
+            throw new Error('Something went really wrong fetching this api', url)
+        }
+    }
+    
+    async JSON() {
+        this.data = await this.response.json();
+        return this.data;
+    }
+    
+    async TEXT() {
+        this.data = await this.response.text();
+        return this.data;
+    }
+    
+    async HTML() {
+        const text = this.TEXT();
+        
+        const temp = new Element('template');
+        temp.inner(text);
+        
+        return temp;
     }
 }
 
@@ -141,5 +190,6 @@ export {
     eventCallback,
     getFormData,
     cookies,
-    fetchAPI
+    fetchAPI,
+    Api
 }
