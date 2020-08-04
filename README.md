@@ -94,7 +94,6 @@ If an event is triggered all the eventCallback-functions are executed. They each
 document.eventListener('click', () => {
 
   // using data-attribute on an element 
-  // it detects which when inside the document is clicked and if the clicked element's selector matches the selector given as first argument than it will execute the callback
   eventCallback('hideMenu', (target) => {
     // target returns the element that is detected by the eventlistener
     target.classList.add('menu--hidden') // adds class to the detected element
@@ -109,7 +108,7 @@ document.eventListener('click', () => {
 ```
 
 ### getFormData(node)
-Returns a Map object with all the data from a form, using the FormData api so you don't have to manually get all the elements from a form and get there values.
+Returns a Map object with all the data from a form, using the FormData api, so you don't have to manually get all the elements from a form and get there values.
 
 **node**: <node> set the formelement where you want to collect the input-data from
 
