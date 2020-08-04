@@ -125,7 +125,7 @@ const formData = getFormData(form) // returns a Map object
 
 console.log(formData.get('username')) // logs the value from a field that has a name-attribute set to 'username'
 
-// example is using the eventCallback-function above
+// an other example that is using the eventCallback-function
 document.addEventListener('submit', () => {
   eventCallback('#newUserForm', (target) => {
     const formData = getFormData(target) // the form node in this case is the target element that is returned from the callback-function
