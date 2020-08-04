@@ -119,6 +119,12 @@ Good to know:
 - the function only detects fields where a ```name```attribute is set
   
 ```js
+// a simple example
+const form = document.querySelector('#newUserForm');
+const formData = getFormData(form) // returns a Map object
+
+console.log(formData.get('username')) // logs the value from a field that has a name-attribute set to 'username'
+
 // example is using the eventCallback-function above
 document.addEventListener('submit', () => {
   eventCallback('#newUserForm', (target) => {
