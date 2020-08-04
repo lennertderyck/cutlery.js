@@ -93,7 +93,7 @@ If an event is triggered all the eventCallback-functions are executed. They each
 // set an eventListener for the whole page
 document.eventListener('click', () => {
 
-  // using data-attribute on an element 
+  // using data-action attribute on an element 
   eventCallback('hideMenu', (target) => {
     // target returns the element that is detected by the eventlistener
     target.classList.add('menu--hidden') // adds class to the detected element
