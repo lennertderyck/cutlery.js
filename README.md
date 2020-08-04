@@ -70,26 +70,68 @@ link.return()
 ### eventCallback(css-selector, callback[, action])
 This function is used to detect the event.target element of an eventListener, so you can a single eventListener for the whole site/application.
 
-**css-selector**: <string> if you added a ```data-action``` attribute you just fill in the value from that attribute, if you define that element in another way, use css selectors<br>
-**callback**: the code that will be executed when an element (that matches the css-selector) is detected<br>
-**action**: set to false if the element that has to be detected is defined by a ```data-action``` attribute
+If an event is triggered all the eventCallback-functions are executed. They each will compare the css selector of the event target with the given selector as first argument, if they match the function executes the callback.
+
+**css-selector**: <string> if you have added a ```data-action``` attribute you just fill in the value from that attribute, if you defined that element in another way, use css selectors<br>
+**callback**: <function> the code that will be executed when an element (that matches the css-selector) is detected<br>
+**action**: <boolean> set to false if the element that has to be detected is not defined by a ```data-action``` attribute
   
 ```html
+<!-- add some html -->
 <div data-action="hideMenu">
   hide menu
 </div>
 
+<div id="wrapper">
+  <div class="card">
+    Some content here
+  </div>
+</div>
 ```
 
 ```js
-// set an eventListener
+// set an eventListener for the whole page
 document.eventListener('click', () => {
+
+  // using data-attribute on an element 
+  // it detects which when inside the document is clicked and if the clicked element's selector matches the selector given as first argument than it will execute the callback
   eventCallback('hideMenu', (target) => {
     // target returns the element that is detected by the eventlistener
-    console.log('menu should be hidden')
+    target.classList.add('menu--hidden') // adds class to the detected element
   })
+  
+  // using a custom selector on an element, add 'false' as third argument
+  eventCallback('#wrapper > .card', (target) => {
+    console.log(target.innerHTML) // output: "Some content here"
+  }, false)
+  
 })
 ```
 
+### getFormData(node)
+Returns a Map object with all the data from a form, using the FormData api so you don't have to manually get all the elements from a form and get there values.
 
+**node**: <node> set the formelement where you want to collect the input-data from
 
+Good to know:
+- the keys are the name-attribute values from the input fields.
+- textarea fields are also supported
+- the value from a number-field will be parsed to number type
+- the function only detects fields where a ```name```attribute is set
+  
+```js
+// example is using the eventCallback-function above
+document.addEventListener('submit', () => {
+  eventCallback('#newUserForm', (target) => {
+    const formData = getFormData(target) // the form node in this case is the target element that is returned from the callback-function
+    
+    // do something with the data
+    aFunctionToCreateNewUsers({
+      name: formData.get('username'),
+      email: formData.get('email'),
+      dateOfBirth: formData.get('dob'),
+    })
+  }, false)
+})
+```
+  
