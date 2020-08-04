@@ -26,8 +26,8 @@ import {node, Element, eventCallback) from 'cutleryjs'
 ### node(css-selector[, multiple])
 Simple function to return a DOM element
 
-**css-selector**: <string> | css selector of an element<br>
-**multiple**: <boolean> | return single node or node-list (querySelectorAll)
+**css-selector**: <string> css selector of an element<br>
+**multiple**: <boolean> return single node or node-list (querySelectorAll)
 
 ```js
 const el = node('body > main')
@@ -37,20 +37,59 @@ const el = node('body > main')
 JavaScript class to create elements
 
 ```js
-const image = new Element('img');
+const link = new Element('a');
 
 // Add classes (array)
-image.class(['animate__animated', 'animate__fadeIn'])
+link.class(['btn', 'btn--outline'])
 
 // Set attributes (nested arrays)
-image.attributes([
-  ['src', 'https://...'],
-  ['width', '100%']
+link.attributes([
+  ['href', 'https://...'],
+  ['target', '_blank'],
+  ['data-tooltip', 'Follow me']
 ])
 
+// Set innerHTML (string)
+link.content = 'Click here <i data-feather="check"></i>'
+// or
+link.inner('Click here <i data-feather="check"></i>')
+
+// Append to element (node|string)
+link.append('body > main .card')
+
+// Prepend to element (node|string)
+link.prepend('body > main .card')
+
 // Log element
-image.log()
+link.log()
 
 // Return element
-image.return()
+link.return()
 ```
+
+### eventCallback(css-selector, callback[, action])
+This function is used to detect the event.target element of an eventListener, so you can a single eventListener for the whole site/application.
+
+**css-selector**: <string> if you added a ```data-action``` attribute you just fill in the value from that attribute, if you define that element in another way, use css selectors<br>
+**callback**: the code that will be executed when an element (that matches the css-selector) is detected<br>
+**action**: set to false if the element that has to be detected is defined by a ```data-action``` attribute
+  
+```html
+<div data-action="hideMenu">
+  hide menu
+</div>
+
+```
+
+```js
+// set an eventListener
+document.eventListener('click', () => {
+  eventCallback('hideMenu', (target) => {
+    // target returns the element that is detected by the eventlistener
+    console.log('menu should be hidden')
+  })
+})
+```
+
+
+
