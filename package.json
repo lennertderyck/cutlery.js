@@ -1,12 +1,11 @@
 {
   "name": "cutleryjs",
-  "version": "1.8.0",
-  "description": "A set of common javascript and sass tools",
+  "version": "2.0.2",
+  "description": "A set of useful javascript and sass tools",
   "main": "dist/js/index.min.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "node build/js && node build/scss",
+    "build": "node build",
     "pub": "npm publish"
   },
   "repository": {
@@ -25,7 +24,8 @@
   },
   "homepage": "https://github.com/lennertderyck/cutlery.js#readme",
   "dependencies": {
-    "minify": "^5.1.1"
+    "minify": "^5.1.1",
+    "version-incrementer": "^0.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.11.0",

@@ -7,7 +7,7 @@ const options = {
     out: './dist/css'
 };
 
-const write = {
+export const build = {
     normal() {
         const result = sass.renderSync({
             file: options.src,
@@ -18,7 +18,7 @@ const write = {
         
         fs.writeFile(`${options.out}/index.css`, copyright + result.css.toString(), (err) => {
             if (err) throw err;
-            console.log('Saved!');
+            console.log(`saved ${options.out}/index.css!`);
         });
     },
     
@@ -32,14 +32,15 @@ const write = {
         
         fs.writeFile(`${options.out}/index.min.css`, copyright + result.css.toString(), (err) => {
             if (err) throw err;
-            console.log('Saved!');
+            console.log(`saved ${options.out}/index.min.css!`);
         });
     },
     
-    all() {
-        write.normal();
-        write.minified();
+    async all() {
+        const packageData = JSON.parse(fs.readFileSync('./package.json', 'utf-8'));
+        console.log(`%cSass v${packageData.version} is parsing\n`, 'color: green;');
+        
+        build.normal();
+        build.minified();
     }
 }
-
-write.all();
