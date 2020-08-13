@@ -1,11 +1,60 @@
 /*
-* cutlery.js 2.1.0 - https://github.com/lennertderyck/cutleryjs
+* cutlery.js 2.1.3 - https://github.com/lennertderyck/cutleryjs
 * Licensed under the GNU GPLv3 license - https://choosealicense.com/licenses/gpl-3.0/#
 *
 * Copyright (c) 2020 Lennert De Ryck
 */
 
-import { thinid } from 'https://unpkg.com/thinid@0.5.1/lib/index.js';
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * Create a random string with length equals 4.
+ */
+function s4() {
+    return Math.round(new Date().getTime() * Math.random())
+        .toString(16)
+        .substr(0, 4);
+}
+/**
+ * Create a random number between 0 and (length - 1).
+ * @param length Length of chaining numbers.
+ */
+function ramdomNumber(length) {
+    return Math.floor(Math.random() * length);
+}
+/**
+ * Create a default Id with length equals 24.
+ */
+function defaultId() {
+    const charCodes = ['-', '_', '@', '#', '$', '%', '^', '&', '*'];
+    const { length } = charCodes;
+    return (s4() +
+        charCodes[ramdomNumber(length)] +
+        s4() +
+        charCodes[ramdomNumber(length)] +
+        s4() +
+        charCodes[ramdomNumber(length)] +
+        s4() +
+        charCodes[ramdomNumber(length)] +
+        s4());
+}
+/**
+ * Create a lovely Id with thinid.
+ * @param length Length of Id.
+ */
+function thinid(length) {
+    if (!length || length <= 0) {
+        return defaultId();
+    }
+    const defaultLength = defaultId().length;
+    const x = length % defaultLength;
+    const y = Math.floor(length / defaultLength);
+    let result = defaultId().substr(0, x);
+    for (let i = 0; i < y; i++) {
+        result += defaultId();
+    }
+    return result;
+}
 
 /**
   * return a node by css selector
