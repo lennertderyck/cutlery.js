@@ -1,9 +1,21 @@
+ /**
+  * return a node by css selector
+  * @param {string} selector the selector of the element you want to return
+  * @param {boolean} multiple set to true if you want to return multiple nodes as an array
+  */
 const node = (selector, multiple = false) => {
     if (multiple == false) return document.querySelector(selector);
     return document.querySelectorAll(selector);
 }
 
+/**
+ * create new nodes
+ */
 class Element {
+    /**
+     * 
+     * @param {string} tagname give the tagname of the type of element you want to create
+     */
     constructor(tagname) {
         if (typeof tagname != 'string') throw new Error('The tagname of this new element is not of the type string')
         try {this.el = document.createElement(tagname);}
@@ -13,6 +25,10 @@ class Element {
         }
     }
     
+    /**
+     * 
+     * @param {array} array the classes you want to add to the created element
+     */
     class(array) {
         if (typeof array != 'object') throw new Error('You should use an array for adding classes to an element')
         try {array.map(i => this.el.classList.add(i))}
@@ -23,6 +39,15 @@ class Element {
         }
     }
     
+    /**
+     * 
+     * @param {array} array set attributes for the created element with nested array: 
+     * [
+     *  ['attribute-name', 'attribute value']
+     *  ['attribute-name', 'attribute value']
+     * ]
+     * 
+     */
     attributes(array) {
         if (typeof array != 'object') throw new Error('You should use an array for adding attributes to an element')
         try {array.map(i => this.el.setAttribute(i[0], i[1]))}
@@ -33,6 +58,10 @@ class Element {
         }
     }
     
+    /**
+     * 
+     * @param {string} input set the innerHTML of the element
+     */
     inner(input) {
         this.el.innerHTML = input;
     }
@@ -41,9 +70,13 @@ class Element {
         console.log(this.el);
     }
     
-    append(node = 'html body', type = 'selector') {
-        if (typeof node == 'string') node = document.querySelector(node)
-        else if (typeof node == 'object') node = node
+    /**
+     * 
+     * @param {(node|string)} node css selector or a node
+     */
+    append(node = 'html body') {
+        if (typeof node == 'string') node = returnNode(node);
+        else if (typeof node == 'object') node = node;
         
         try {node.appendChild(this.el);}
         catch (err) {
@@ -53,8 +86,12 @@ class Element {
         }
     }
     
-    prepend(node = 'html body', type = 'selector') {
-        if (typeof node == 'string') node = document.querySelector(node)
+    /**
+     * 
+     * @param {(node|string)} node css selector or a node
+     */
+    prepend(node = 'html body') {
+        if (typeof node == 'string') node = returnNode(node);
         else if (typeof node == 'object') node = node
         
         try {node.prepend(this.el);}
@@ -70,6 +107,12 @@ class Element {
     }
 }
 
+/**
+ * set callback to excecute when the given selector en the selector of the event.target are equal
+ * @param {string} selector css selector to match the event.target element of an eventListener
+ * @param {callback} callback executed script when selectors match
+ * @param {boolean} action set to true if the element that has to match is identified by a `data-action` attribute
+ */
 const eventCallback = (selector, callback, action = true) => {
     let target = null;
     
@@ -79,6 +122,10 @@ const eventCallback = (selector, callback, action = true) => {
     if (target) callback(target);
 }
 
+/**
+ * extract formdata, returns a Map object
+ * @param {string} formNode css selector of the form
+ */
 const getFormData = (formNode) => {
     // https://stackoverflow.com/a/14438954/9357283
     
@@ -101,6 +148,9 @@ const getFormData = (formNode) => {
     return returnData;
 }
 
+/**
+ * set, remove and read cookies
+ */
 const cookies = {
     set(name, value, days) {
         if (days) {
@@ -124,6 +174,9 @@ const cookies = {
     },
 }
 
+/**
+ * fetch api data and choose the output format
+ */
 const fetchAPI = {
     async json(url, options = {method: 'GET'}) {
         try {
@@ -145,9 +198,16 @@ const fetchAPI = {
         catch {
             throw new Error('Something went really wrong fetching this api', url)
         }
+    },
+    
+    async html(url) {
+        
     }
 }
 
+/**
+ * a more complex api to fetch data, wip
+ */
 class Api {
     constructor(url, options = {method: 'GET'}) {
         this.url = url;
@@ -184,6 +244,54 @@ class Api {
     }
 }
 
+/**
+ * returns a node, even if the paramter is set by a string
+ * checks if the given attribute is a node, if not it will select and return the node by its selector
+ * @param {(string|node)} el 
+ * @param {*} multiple set to true if you want to return multiple nodes as an array
+ */
+const returnNode = (el, multiple = false) => {
+    if (typeof el == 'node') return el;
+    if (typeof el == 'string') {
+        const nodes = document.querySelectorAll(el);
+        
+        if (multiple == false) return nodes[0]
+        else return nodes;
+    }
+}
+
+/**
+ * returns the tagname of an element
+ * @param {(string|nodes)} el 
+ */
+const returnTag = (el) => {
+    return returnNode(el).tagName.toLowerCase();
+}
+
+/**
+ * return the fieldtype of an input element
+ * when the parameter is a form then all input elements are returned with their type as a Map object
+ * @param {(string|node)} el css selector or node
+ */
+const fieldTypes = (el) => {
+    const formTypes = new Map();
+    const element = returnNode(el);
+    const type = returnTag(el);
+    
+    if (type == 'form') {
+        const formElements = element.querySelectorAll('input, textarea');
+        formElements.forEach(i => {
+            if (i.type && i.name) formTypes.set(i.name, i.type);
+            else if (returnTag(i) == 'textarea') formTypes.set(i.name, 'textarea');
+            else formTypes.set('no name', i.type);
+        })
+        return formTypes;
+    };
+    if (type == 'input' && element.type) return element.type;
+    if (type == 'textarea') return 'textarea';
+    return 'no element found or type specified';
+}
+
 export {
     node,
     Element,
@@ -191,5 +299,8 @@ export {
     getFormData,
     cookies,
     fetchAPI,
-    Api
+    Api,
+    returnNode,
+    returnTag,
+    fieldTypes
 }
