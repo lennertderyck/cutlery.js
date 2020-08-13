@@ -14,7 +14,7 @@ Import with ES6 modules
 import {node, Element, eventCallback) from 'cutleryjs'
 ```
 
-> Node ```require``` support comming
+> Node ```require``` support in beta
 
 #### CDN
 |          |Unpkg|jsDelivr|
