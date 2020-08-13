@@ -24,7 +24,7 @@ const options = {
     outLegacyMin: './dist/js/legacy.min.js'
 };
 
-const build = {
+export const build = {
     normal() {
         const file = fs.readFileSync(options.src);
         return file;
@@ -49,13 +49,16 @@ const build = {
         try {
             if (addCopyright == true) fs.writeFileSync(output, copyright + code);
             if (addCopyright == false) fs.writeFileSync(output, code);
-            console.log('Saved!');
+            console.log(`saved ${output}!`);
         } catch {
             console.log(`${output} couldn't be written`)
         }
     },
     
     async all() {
+        const packageData = JSON.parse(fs.readFileSync('./package.json', 'utf-8'));
+        console.log(`%cJavaScript v${packageData.version} is parsing \n`, 'color: #00ee00;');
+        
         // write normal
         build.write(build.normal(), options.out);
         
@@ -65,12 +68,12 @@ const build = {
         
         // write legacy;
         const legacy = await build.legacy();
-        build.write(legacy, options.outLegacy);
+        build.write(legacy, options.outLegacyMin);
         
-        // write legacy minified from legacy
-        const legacyMin = await build.minify(options.outLegacy, options.minify);
-        build.write(legacyMin, options.outLegacyMin, false);        
+        // write legacy minified from legacy — deprecated because of miniy option from babel
+        // const legacyMin = await build.minify(options.outLegacy, options.minify);
+        // build.write(legacyMin, options.outLegacyMin, false); 
+        
+        console.log('\nJavaScript is done parsing\n');       
     }
 }
-
-build.all();
