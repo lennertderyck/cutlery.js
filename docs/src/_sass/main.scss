@@ -1,0 +1,45 @@
+// bootstrap basic
+@import 'vendors/bootstrap-custom';
+@import '../../node_modules/bootstrap/scss/functions';
+@import '../../node_modules/bootstrap/scss/variables';
+@import '../../node_modules/bootstrap/scss/mixins';
+@import '../../node_modules/bootstrap/scss/reboot';
+@import '../../node_modules/bootstrap/scss/type';
+@import '../../node_modules/bootstrap/scss/code';
+@import '../../node_modules/bootstrap/scss/grid';
+@import '../../node_modules/bootstrap/scss/utilities';
+
+// bootstrap complete
+// @import '../../node_modules/bootstrap/scss/bootstrap';
+
+// abstracts
+@import 'abstracts/functions';
+@import 'abstracts/mixins';
+@import 'abstracts/properties';
+@import 'abstracts/variables';
+
+// base
+@import 'base/base';
+@import 'base/typography';
+
+// components
+@import 'components/buttons';
+@import 'components/slider';
+@import 'components/header';
+@import 'components/sidemenu';
+
+// layout
+@import 'layout/footer';
+@import 'layout/header';
+
+// pages
+@import 'pages/about';
+@import 'pages/home';
+
+// themes
+@import 'themes/admin';
+@import 'themes/theme';
+
+// vendors
+
+

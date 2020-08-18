@@ -1,0 +1,34 @@
+pre:not(.unstyle) {
+    position: relative;
+    padding: .2rem .4rem;
+    background: #eaeaea;
+    font-family: 'Space Mono', monospace;
+}
+
+pre {
+    position: relative;
+    font-family: 'Space Mono', monospace;
+    
+    &::after {
+        content: 'click to copy';
+        position: absolute;
+        top: 0px; bottom: 0px; left: 0px; right: 0px;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(255, 0, 0, 0.842);
+        font-weight: bold;
+    }
+    
+    &:hover::after {
+        display: flex;
+    }
+}
+
+h5, .h5 {
+    font-size: 1.1rem;
+}
+
+ul {
+    padding-left: 1rem;
+}
