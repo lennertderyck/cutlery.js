@@ -21,7 +21,7 @@ module.exports = (eleventyConfig) => {
     });
     
     return {
-        pathPrefix: '/11ty-template/',
+        pathPrefix: '',
         dir: {
             output: 'docs',
             input: 'src/',
