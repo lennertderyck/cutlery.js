@@ -1,0 +1,66 @@
+<ul>
+<li><strong>tagname</strong> <em>string</em>: the tagname of the node you want to create</li>
+</ul>
+<hr>
+<h4>Steps</h4>
+<h5>Create new instance</h5>
+<pre><code class="language-js">const element = new Element('div');
+</code></pre>
+<h5>Add (html-)content</h5>
+<p>You can set the innerHTML of the element using the inner-function;</p>
+<pre><code class="language-js">element.inner(`
+    &lt;div class=&quot;card__header&quot;&gt;&lt;h3&gt;Card-title&lt;/h3&gt;&lt;/div&gt;
+    &lt;div class=&quot;card__body&quot;&gt;Some content&lt;/div&gt;
+    &lt;div class=&quot;card__footer&quot;&gt;&lt;button data-action=&quot;close&quot;&gt;&lt;/button&gt;&lt;/div&gt;
+`)
+</code></pre>
+<p>You can also use the return-function to set the innerHTML.</p>
+<pre><code class="language-js">element.return().innerHTML = `
+    &lt;div class=&quot;card__header&quot;&gt;&lt;h3&gt;Card-title&lt;/h3&gt;&lt;/div&gt;
+    &lt;div class=&quot;card__body&quot;&gt;Some content&lt;/div&gt;
+    &lt;div class=&quot;card__footer&quot;&gt;&lt;button data-action=&quot;close&quot;&gt;&lt;/button&gt;&lt;/div&gt;
+`;
+</code></pre>
+<h5>Add classes (array)</h5>
+<p>Add an array directly in the function</p>
+<pre><code class="language-js">element.class(['card', 'animate__animated', 'animate__zoomIn']);
+</code></pre>
+<p>or create an array first</p>
+<pre><code class="language-js">const classes = ['card', 'animate__animated', 'animate__zoomIn'];
+element.class(classes);
+</code></pre>
+<h5>Set attributes (nested arrays)</h5>
+<p>Set attributes for a node as nested arrays. You can also make an array first, outside the function and then add the variable to the function.</p>
+<pre><code class="language-js">element.attributes([
+    ['data-id', 'fJEhegfHJEjknekiz'],
+    ['data-tooltip', 'hover over this card']
+]);
+</code></pre>
+<h5>Append (css-selector|node)</h5>
+<p>Append the node to another node. You can append the element multiple times to the DOM.</p>
+<pre><code class="language-js">element.append('main &gt; .card__list');
+</code></pre>
+<h5>Prepend (css-selector|node)</h5>
+<p>Prepend the node to another node. You can append the element multiple times to the DOM.</p>
+<pre><code class="language-js">element.prepend('main &gt; .card__list');
+</code></pre>
+<h5>The Return of The Node</h5>
+<p>Return the node so you can easily use it in other functions for example.</p>
+<pre><code class="language-js">element.return();
+</code></pre>
+<p>When you use the return-function you can manipulate the object as you would with a normal node.
+(See the inner-function for another example)</p>
+<pre><code class="language-js">// check if the node contains a string
+element.return().contains('cheese') // returns boolean
+
+// remove when needed
+element.return().remove();
+</code></pre>
+<h5>Log</h5>
+<p>You can easily log the element so you can evaluate the result.</p>
+<pre><code class="language-js">element.log();
+</code></pre>
+<hr>
+<h4>Note</h4>
+<p>You can use the methods throughout the entire javascript-file, depending on when and where you declare the object.</p>
+<p>You could add the object to json-object, call it later in your script and apply these same methods.</p>

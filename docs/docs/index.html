@@ -70,6 +70,18 @@
                         <small class="d-block text-dimmed">Retrieve formdata, without submitting</small>
                         <hr>
                     
+                        <a class="small d-block" href="#returntag">returnTag</a>
+                        <small class="d-block text-dimmed">Returns the tagname of an element</small>
+                        <hr>
+                    
+                        <a class="small d-block" href="#fieldtypes">fieldTypes</a>
+                        <small class="d-block text-dimmed">Returns the fieldtype of an input-element</small>
+                        <hr>
+                    
+                        <a class="small d-block" href="#new-element">new Element</a>
+                        <small class="d-block text-dimmed">Easily create new nodes</small>
+                        <hr>
+                    
                 </aside>
             </div>
             <main id="content" class="col-12 col-lg-9">
@@ -127,13 +139,14 @@
             <p>Simple function to return a node</p>
         
         
-            <pre class="unstyle"><code>node(node[, multiple = false])</code></pre>
+            <pre class="unstyle docs-section__function"><code>node(node[, multiple = false])</code></pre>
         
         <hr>
         <ul>
 <li><strong>node</strong> <em>css-selector</em>: css-selector of an element</li>
 <li><strong>multiple</strong> <em>boolean</em>:  return single node or node-list (querySelectorAll)</li>
 </ul>
+<hr>
 <pre><code class="language-js">/**
  * in this example you would have a list of cards on a page,
  * set the second parameter to `true` to return a nodelist, false by default
@@ -152,13 +165,14 @@ const cards = node('#app &gt; .cards &gt; .card', true);
             <p>Checks if an element is a node, if not it returns a node</p>
         
         
-            <pre class="unstyle"><code>returnNode(node[, multiple = false])</code></pre>
+            <pre class="unstyle docs-section__function"><code>returnNode(node[, multiple = false])</code></pre>
         
         <hr>
         <ul>
 <li><strong>node</strong> <em>css-selector</em> | <em>node</em>: a css-selector or an actual node</li>
 <li><strong>multiple</strong> <em>boolean</em>: return single node or node-list (querySelectorAll)</li>
 </ul>
+<hr>
 <p>A good function when you have an other function where the input can be a node or a css-selector, but you are not shure which.</p>
 <pre><code class="language-js">/**
  * This is an example where the function is being used in
@@ -185,15 +199,16 @@ const userDetails = returnText('#app .user &gt; .user__details');
             <p>Execute code when a eventlistener is triggered</p>
         
         
-            <pre class="unstyle"><code>eventCallback(selector, callback[, action = true])</code></pre>
+            <pre class="unstyle docs-section__function"><code>eventCallback(selector, callback[, action = true])</code></pre>
         
         <hr>
-        <p>You would use this function if you want to limit the eventlisteners you add to a page.</p>
-<ul>
+        <ul>
 <li><strong>node</strong> <em>selector</em>: a css-selector</li>
 <li><strong>callback</strong> <em>function</em>: the code that will be executed, returns the event target</li>
 <li><strong>action</strong> <em>boolean</em>: set to <code>false</code> if the element that has to be detected isn't defined by a <code>data-action</code> attribute</li>
 </ul>
+<hr>
+<p>You would use this function if you want to limit the eventlisteners you add to a page.</p>
 <p><strong>How you would use this function</strong></p>
 <ul>
 <li>Add it inside an eventlistener</li>
@@ -227,12 +242,13 @@ const userDetails = returnText('#app .user &gt; .user__details');
             <p>Retrieve formdata, without submitting</p>
         
         
-            <pre class="unstyle"><code>getFormData(form)</code></pre>
+            <pre class="unstyle docs-section__function"><code>getFormData(form)</code></pre>
         
         <hr>
         <ul>
 <li><strong>form</strong> <em>css-selector</em> | <em>node</em>: the form itself as css-selector or an actual node, most of the time this is the event target of an (submit) eventlistener</li>
 </ul>
+<hr>
 <p>Just add the form as parameter and when the function is called it returns a Map object.</p>
 <p>The map keys are the name-values of the form elements. Input-elements that don't have a name-attribute will be ignored since the build in FormData API in browsers requires a name-attribute-value.</p>
 <h4>Examples</h4>
@@ -247,7 +263,7 @@ const newUserData = getFormData(newUserForm); // returns Map object
     }, false)
 })
 </code></pre>
-<p><strong>Why this function</strong></p>
+<h4>Why this function</h4>
 <p>It's far more convenient than manually selecting all form elements and getting their values.</p>
 <p>Just one function returns all the function.</p>
 <h4>Return of input-types</h4>
@@ -258,6 +274,134 @@ Just text will be returned</p>
 These values will be converted in numbers and returned</p>
 <p><strong>file</strong><br>
 A file field will return all properties of this field as an json object.</p>
+
+    </div>
+
+    <div class="docs-section" id="returntag">
+        <h3 class="docs-section__title">
+            returnTag
+        </h3>
+        
+            <p>Returns the tagname of an element</p>
+        
+        
+            <pre class="unstyle docs-section__function"><code>returnTag(node)</code></pre>
+        
+        <hr>
+        <ul>
+<li><strong>node</strong> <em>css-selector</em> | <em>node</em>: a css-selector or an actual node</li>
+</ul>
+<hr>
+<pre><code class="language-js">const all = document.querySelectorAll('*');
+all.forEach(el =&gt; {
+    console.log(returnTag(el));
+})
+</code></pre>
+
+    </div>
+
+    <div class="docs-section" id="fieldtypes">
+        <h3 class="docs-section__title">
+            fieldTypes
+        </h3>
+        
+            <p>Returns the fieldtype of an input-element</p>
+        
+        
+            <pre class="unstyle docs-section__function"><code>fieldTypes(node)</code></pre>
+        
+        <hr>
+        <ul>
+<li><strong>node</strong> <em>css-selector</em> | <em>node</em>: a css-selector or an actual node</li>
+</ul>
+<hr>
+<p>When the node you assign to the function is a form-element, than the function will return a Map object. The keys are the name-attribute-values of the input-elements. Input-elements without a name-attribute will be ignored.</p>
+<p>In this function is the <a href="#returntag">returnTag</a>-function used.</p>
+<pre><code class="language-js">const inputField = fieldTypes('#newUserForm &gt; #newUserName');
+
+const form = document.querySelector('#newUserForm');
+const fields = fieldTypes(form);
+</code></pre>
+
+    </div>
+
+    <div class="docs-section" id="new-element">
+        <h3 class="docs-section__title">
+            new Element
+        </h3>
+        
+            <p>Easily create new nodes</p>
+        
+        
+            <pre class="unstyle docs-section__function"><code>new Element(tagname)</code></pre>
+        
+        <hr>
+        <ul>
+<li><strong>tagname</strong> <em>string</em>: the tagname of the node you want to create</li>
+</ul>
+<hr>
+<h4>Steps</h4>
+<h5>Create new instance</h5>
+<pre><code class="language-js">const element = new Element('div');
+</code></pre>
+<h5>Add (html-)content</h5>
+<p>You can set the innerHTML of the element using the inner-function;</p>
+<pre><code class="language-js">element.inner(`
+    &lt;div class=&quot;card__header&quot;&gt;&lt;h3&gt;Card-title&lt;/h3&gt;&lt;/div&gt;
+    &lt;div class=&quot;card__body&quot;&gt;Some content&lt;/div&gt;
+    &lt;div class=&quot;card__footer&quot;&gt;&lt;button data-action=&quot;close&quot;&gt;&lt;/button&gt;&lt;/div&gt;
+`)
+</code></pre>
+<p>You can also use the return-function to set the innerHTML.</p>
+<pre><code class="language-js">element.return().innerHTML = `
+    &lt;div class=&quot;card__header&quot;&gt;&lt;h3&gt;Card-title&lt;/h3&gt;&lt;/div&gt;
+    &lt;div class=&quot;card__body&quot;&gt;Some content&lt;/div&gt;
+    &lt;div class=&quot;card__footer&quot;&gt;&lt;button data-action=&quot;close&quot;&gt;&lt;/button&gt;&lt;/div&gt;
+`;
+</code></pre>
+<h5>Add classes (array)</h5>
+<p>Add an array directly in the function</p>
+<pre><code class="language-js">element.class(['card', 'animate__animated', 'animate__zoomIn']);
+</code></pre>
+<p>or create an array first</p>
+<pre><code class="language-js">const classes = ['card', 'animate__animated', 'animate__zoomIn'];
+element.class(classes);
+</code></pre>
+<h5>Set attributes (nested arrays)</h5>
+<p>Set attributes for a node as nested arrays. You can also make an array first, outside the function and then add the variable to the function.</p>
+<pre><code class="language-js">element.attributes([
+    ['data-id', 'fJEhegfHJEjknekiz'],
+    ['data-tooltip', 'hover over this card']
+]);
+</code></pre>
+<h5>Append (css-selector|node)</h5>
+<p>Append the node to another node. You can append the element multiple times to the DOM.</p>
+<pre><code class="language-js">element.append('main &gt; .card__list');
+</code></pre>
+<h5>Prepend (css-selector|node)</h5>
+<p>Prepend the node to another node. You can append the element multiple times to the DOM.</p>
+<pre><code class="language-js">element.prepend('main &gt; .card__list');
+</code></pre>
+<h5>The Return of The Node</h5>
+<p>Return the node so you can easily use it in other functions for example.</p>
+<pre><code class="language-js">element.return();
+</code></pre>
+<p>When you use the return-function you can manipulate the object as you would with a normal node.
+(See the inner-function for another example)</p>
+<pre><code class="language-js">// check if the node contains a string
+element.return().contains('cheese') // returns boolean
+
+// remove when needed
+element.return().remove();
+</code></pre>
+<h5>Log</h5>
+<p>You can easily log the element so you can evaluate the result.</p>
+<pre><code class="language-js">element.log();
+</code></pre>
+<hr>
+<h4>Note</h4>
+<p>You can use the methods throughout the entire javascript-file, depending on when and where you declare the object.</p>
+<p>You could add the object to json-object, call it later in your script and apply these same methods.</p>
 
     </div>
 

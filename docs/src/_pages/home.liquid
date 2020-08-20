@@ -13,7 +13,7 @@ permalink: index.html
             <p>{{ section.data.description }}</p>
         {% endif %}
         {% if section.data.function != false %}
-            <pre class="unstyle"><code>{{ section.data.title }}{% if section.data.parameters %}({{ section.data.parameters }}){% endif %}</code></pre>
+            <pre class="unstyle docs-section__function"><code>{{ section.data.title }}{% if section.data.parameters %}({{ section.data.parameters }}){% endif %}</code></pre>
         {% endif %}
         <hr>
         {{ section.templateContent }}

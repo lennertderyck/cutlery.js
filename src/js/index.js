@@ -107,7 +107,6 @@ export class Element {
     
     return(format) {
         if (!format || 'node') return this.el;
-        
         if (format == 'html') return this.el.outerHTML
     }
 }

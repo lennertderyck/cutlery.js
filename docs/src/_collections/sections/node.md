@@ -7,6 +7,8 @@ description: Simple function to return a node
 - **node** *css-selector*: css-selector of an element
 - **multiple** *boolean*:  return single node or node-list (querySelectorAll)
 
+---
+
 ```js
 /**
  * in this example you would have a list of cards on a page,

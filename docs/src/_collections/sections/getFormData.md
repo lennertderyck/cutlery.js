@@ -6,6 +6,8 @@ parameters: form
 
 - **form** *css-selector* | *node*: the form itself as css-selector or an actual node, most of the time this is the event target of an (submit) eventlistener
 
+---
+
 Just add the form as parameter and when the function is called it returns a Map object.
 
 The map keys are the name-values of the form elements. Input-elements that don't have a name-attribute will be ignored since the build in FormData API in browsers requires a name-attribute-value.
@@ -28,7 +30,7 @@ window.eventListener('submit', () => {
 })
 ```
 
-**Why this function**
+#### Why this function
 
 It's far more convenient than manually selecting all form elements and getting their values.
 

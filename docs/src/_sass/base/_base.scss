@@ -14,6 +14,11 @@ main {
     border-radius: 15px;
     border: 1px solid #E5E5E5;
     
+    &:target {
+        border-color: #007bff;
+        background-color: #007bff13;
+    }
+    
     *:last-child {
         margin-bottom: 0;
     }
@@ -21,5 +26,13 @@ main {
     &__title {
         font-family: 'Space Mono', monospace;
         font-weight: bold;
+    }
+    
+    &__function {
+        color: #007bff;
+        
+        &::after {
+            color: black;
+        }
     }
 }

@@ -4,11 +4,13 @@ parameters: selector, callback[, action = true]
 description: Execute code when a eventlistener is triggered
 ---
 
-You would use this function if you want to limit the eventlisteners you add to a page.
-
 - **node** *selector*: a css-selector
 - **callback** *function*: the code that will be executed, returns the event target
 - **action** *boolean*: set to `false` if the element that has to be detected isn't defined by a ```data-action``` attribute
+
+---
+
+You would use this function if you want to limit the eventlisteners you add to a page.
 
 **How you would use this function**
 - Add it inside an eventlistener
