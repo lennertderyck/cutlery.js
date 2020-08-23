@@ -1,5 +1,5 @@
 /*
-* cutlery.js 2.1.4 - https://github.com/lennertderyck/cutleryjs
+* cutlery.js 2.1.6 - https://github.com/lennertderyck/cutleryjs
 * Licensed under the GNU GPLv3 license - https://choosealicense.com/licenses/gpl-3.0/#
 *
 * Copyright (c) 2020 Lennert De Ryck
@@ -114,7 +114,6 @@ export class Element {
     
     return(format) {
         if (!format || 'node') return this.el;
-        
         if (format == 'html') return this.el.outerHTML
     }
 }

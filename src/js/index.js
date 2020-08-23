@@ -220,7 +220,7 @@ export class Api {
     
     async fetch(options = this.options) {
         try {
-            this.response = await fetch(url, options)
+            this.response = await fetch(this.url, this.options)
             return this.response;
         }
         catch {
@@ -228,24 +228,30 @@ export class Api {
         }
     }
     
+    async status() {
+        const response = await this.fetch();
+        return response
+    }
+    
     async JSON() {
-        this.data = await this.response.json();
-        return this.data;
+        const response = await this.fetch();
+        return response.json();
     }
     
     async TEXT() {
-        this.data = await this.response.text();
-        return this.data;
+        const response = await this.fetch();
+        return response.text();
     }
     
-    async HTML() {
-        const text = this.TEXT();
+    // async NODE() {
+    //     const text = await this.TEXT();
         
-        const temp = new Element('template');
-        temp.inner(text);
+    //     const temp = document.createElement('template');
+    //     temp.innerHTML = text;
+    //     // const content = temp.content.cloneNode(true);
         
-        return temp;
-    }
+    //     return temp.outerHTML;
+    // }
 }
 
 export class LocalDB {
@@ -294,6 +300,26 @@ export class LocalDB {
         this.store(this.data);
         
         if (callback) callback();
+    }
+    
+    update(id, data, callback) {
+        const localData = this.getData();
+        const item = this.item({__id: id});
+        const keys = Object.keys(data)
+        
+        keys.map(key => {
+            console.log(data[key])
+            console.log(item[key])
+        })
+        
+        if (callback) callback();
+        
+        for (const i = 0; i < item.length; i++) {
+            if (item[i].__id === id) {
+              item[i].Username = newValue;
+              return;
+            }
+          }
     }
     
     remove(data, callback) {
@@ -374,4 +400,28 @@ export const fieldTypes = (el) => {
     if (type == 'input' && element.type) return element.type;
     if (type == 'textarea') return 'textarea';
     return 'no element found or type specified';
+}
+
+export const connection = {
+    state() {
+        const online = window.navigator.onLine;
+        const connection = online ? navigator.connection.effectiveType : online;
+        
+        console.log(`Connection types:\n0: offline\n1: slow\n2: good\n3: strong`);
+        
+        return {
+            false: 0,
+            'slow-2g': 1,
+            '2g': 1,
+            '3g': 2,
+            '4g': 3,
+        }[connection];
+    },
+    
+    watch(callback = null) {     
+        navigator.connection.addEventListener('change', () => {
+            const state = connection.state();
+            callback(state);
+        });
+    }
 }
