@@ -1,5 +1,5 @@
 /*
-* cutlery.js 2.2.0 - https://github.com/lennertderyck/cutleryjs
+* cutlery.js 3.0.0 - https://github.com/lennertderyck/cutleryjs
 * Licensed under the GNU GPLv3 license - https://choosealicense.com/licenses/gpl-3.0/#
 *
 * Copyright (c) 2020 Lennert De Ryck
@@ -153,7 +153,11 @@ export const getFormData = (formNode) => {
     });
     
     names.forEach(i => {
-        returnData.set(i.name, i.type == 'number' ? parseFloat(formData.get(i.name)) : formData.get(i.name))
+        const value = formData.get(i.name);
+        
+        if (i.type == 'number') returnData.set(i.name, parseFloat(value))
+        else if (i.type == 'checkbox') returnData.set(i.name, value == 'on' ? true : false)
+        else returnData.set(i.name, value)
     })
     
     return returnData;
@@ -365,10 +369,10 @@ export class LocalDB {
  * returns a node, even if the paramter is set by a string
  * checks if the given attribute is a node, if not it will select and return the node by its selector
  * @param {(string|node)} el 
- * @param {*} multiple set to true if you want to return multiple nodes as an array
+ * @param {boolean} multiple set to true if you want to return multiple nodes as an array
  */
 export const returnNode = (el, multiple = false) => {
-    if (typeof el == 'node') return el;
+    if (typeof el == 'object') return el;
     if (typeof el == 'string') {
         const nodes = document.querySelectorAll(el);
         
@@ -431,4 +435,56 @@ export const connection = {
             callback(state);
         });
     }
+}
+
+/**
+ * creates a toast
+ * @param {string} title title for the toast
+ * @param {string} content bodytext for the toast
+ * @param {number} timer the time that a toast will be visible, in milliseconds
+ */
+export class Toast {
+    constructor({title, content, timer = 6000, classes = [], attributes = []}) {
+        const animateDuraction = 2000;
+        
+        this.toast = new Element('div');
+        this.toast.class(['toast', 'animate__animated', 'animate__fadeInUp', 'animate__faster', ...classes]);
+        this.toast.inner(`
+            <div class="toast__wrapper">
+                <div class="toast__controls">
+                <div data-action="closeToast">
+                    <i class='bx bx-x'></i>
+                </div>
+                </div>
+                <div class="toast__content">
+                <h5 class="toast__title">${title}</h5>
+                <div class="toast__body">
+                    <p>${content}</p>
+                </div>
+                </div>
+            </div>
+            <div class="toast__timer"></div>
+        `);
+        
+        this.toast.attributes([
+            ['style', `--timer-duration: ${timer}ms`]
+        ])
+        
+        this.toast.append('#toasts .toasts__wrapper');
+        
+        // hide toast 
+        setTimeout(() => {  
+            fadeOutNode(this.toast.return());    
+        }, timer)
+        
+        // remove toast after being hidden
+        setTimeout(() => {      
+            this.toast.return().remove();
+        }, timer + animateDuraction)
+    }
+}
+  
+const fadeOutNode = (el) => {
+    el.classList.remove('animate__fadeInUp');
+    el.classList.add('animate__fadeOutDown');
 }
