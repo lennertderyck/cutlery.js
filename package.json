@@ -1,9 +1,12 @@
 {
   "name": "cutleryjs",
-  "version": "3.0.0",
+  "version": "3.3.0",
   "description": "A set of useful javascript and sass tools",
   "main": "dist/js/index.min.js",
   "style": "dist/css/index.min.css",
+  "update:big": "",
+  "update:feature": "",
+  "update:bugfix": "",
   "type": "module",
   "scripts": {
     "build": "node build",

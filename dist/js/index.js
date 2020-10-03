@@ -1,5 +1,5 @@
 /*
-* cutlery.js 3.0.0 - https://github.com/lennertderyck/cutleryjs
+* cutlery.js 3.3.0 - https://github.com/lennertderyck/cutleryjs
 * Licensed under the GNU GPLv3 license - https://choosealicense.com/licenses/gpl-3.0/#
 *
 * Copyright (c) 2020 Lennert De Ryck
@@ -154,9 +154,8 @@ export const getFormData = (formNode) => {
     
     names.forEach(i => {
         const value = formData.get(i.name);
-        
         if (i.type == 'number') returnData.set(i.name, parseFloat(value))
-        else if (i.type == 'checkbox') returnData.set(i.name, value == 'on' ? true : false)
+        else if (i.type == 'checkbox') returnData.set(i.name, value != null ? value == 'on' ? true : value : false)
         else returnData.set(i.name, value)
     })
     
@@ -488,3 +487,29 @@ const fadeOutNode = (el) => {
     el.classList.remove('animate__fadeInUp');
     el.classList.add('animate__fadeOutDown');
 }
+
+export const updateClipboard = async (text) => {
+    const {state} = await navigator.permissions.query({name: "clipboard-write"});
+    if (state == "granted" || state == "prompt") try {
+        await navigator.clipboard.writeText(text);
+        console.log('copied');
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+/**
+ * BETA FUNCTIONS
+ */
+
+Node.prototype.event = function (type) {
+    const hasOn = type.startsWith('on'), isDefined = this[type] !== undefined;
+    type = hasOn == false ? `on${type}` : type;
+    
+    if (isDefined == false) throw new Error(`This type of event (${type}) doesn\'t exist`);
+    return (funct) => this[type] = funct;
+}
+
+// Array.prototype.selectOr = function() {
+//     console.log(this)
+// };
