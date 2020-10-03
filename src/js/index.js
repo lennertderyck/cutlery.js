@@ -495,8 +495,8 @@ export const updateClipboard = async (text) => {
  * BETA FUNCTIONS
  */
 
-Node.prototype.event = function (type) {
-    const hasOn = type.startsWith('on'), isDefined = this[type] !== undefined;
+Node.prototype.on = function (type) {
+    const hasOn = type.startsWith('on'), isDefined = this[type] === undefined;
     type = hasOn == false ? `on${type}` : type;
     
     if (isDefined == false) throw new Error(`This type of event (${type}) doesn\'t exist`);
