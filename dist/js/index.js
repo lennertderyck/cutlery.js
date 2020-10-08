@@ -1,5 +1,5 @@
 /*
-* cutlery.js 3.4.0 - https://github.com/lennertderyck/cutleryjs
+* cutlery.js 3.5.4 - https://github.com/lennertderyck/cutleryjs
 * Licensed under the GNU GPLv3 license - https://choosealicense.com/licenses/gpl-3.0/#
 *
 * Copyright (c) 2020 Lennert De Ryck
@@ -488,6 +488,11 @@ const fadeOutNode = (el) => {
     el.classList.add('animate__fadeOutDown');
 }
 
+/**
+ * add text to cliboard
+ * @param {string} text the text that has to be copied
+ */
+
 export const updateClipboard = async (text) => {
     const {state} = await navigator.permissions.query({name: "clipboard-write"});
     if (state == "granted" || state == "prompt") try {
@@ -496,6 +501,21 @@ export const updateClipboard = async (text) => {
     } catch (error) {
         console.error(error);
     }
+}
+
+/**
+ * check if an anker element leads to an external url
+ * @param {(string|node)} el the anker element that is checked
+ * @param {string} slug if the page you want to check has a slug you want to left out
+ */
+
+export const linkRouting = (el, slug = '') => {
+    const target = returnNode(el);
+    const href = el.href;
+    const local = window.location.href.replace(window.location.hash, '') + slug;
+    
+    if (href.startsWith(local)) window.open(href, '_self');
+    else window.open(href, '_blank');
 }
 
 /**
@@ -513,3 +533,15 @@ Node.prototype.on = function (type) {
 // Array.prototype.selectOr = function() {
 //     console.log(this)
 // };
+
+export class AppErr {
+    constructor(data) {
+       this.send(data)
+    }
+    
+    async send({title = null, message = null, url = window.location.href, error = null}) {
+        const res = await fetch(`http://err.lennertderyck.be/api/new?title=${title}&message=${message}&url=${url}&error=${error}`);
+        if (!res.error) console.log('New app-error logged', await res.json());
+        else console.log('Something went wrong when logging error', await res.json());
+    }
+}
