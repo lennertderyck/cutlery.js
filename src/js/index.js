@@ -120,10 +120,15 @@ export class Element {
 export const eventCallback = (selector, callback, action = true) => {
     let target = null;
     
-    if (action == true) target = event.target.closest(`[data-action="${selector}"]`);
-    else target = event.target.closest(selector);
+    // TODO: Detect if element has [data-action] selector
     
-    if (target) callback(target);
+    try {
+        if (action == true) target = event.target.closest(`[data-action="${selector}"]`);
+        else target = event.target.closest(selector);
+        if (target) callback(target);
+    } catch (error) {
+        console.error(`Something went wrong on event callback. Use the correct selector – Didn\'t use the [data-action] selector? Add ${false} as third argument`);
+    }
 }
 
 /**
