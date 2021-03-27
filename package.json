@@ -4,7 +4,9 @@
   "description": "A set of useful javascript and sass tools",
   "main": "dist/js/index.min.js",
   "style": "dist/css/index.min.css",
-  "type": "module",
+  "update:big": "",
+  "update:feature": "",
+  "update:bugfix": "",
   "scripts": {
     "build": "node build",
     "pub": "npm publish",
