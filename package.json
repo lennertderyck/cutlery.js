@@ -1,16 +1,16 @@
 {
   "name": "cutleryjs",
-  "version": "3.5.5",
+  "version": "3.6.0",
   "description": "A set of useful javascript and sass tools",
   "main": "dist/js/index.min.js",
   "style": "dist/css/index.min.css",
-  "update:big": "",
-  "update:feature": "",
-  "update:bugfix": "",
   "type": "module",
   "scripts": {
     "build": "node build",
-    "pub": "npm publish"
+    "pub": "npm publish",
+    "update:big": "",
+    "update:feature": "",
+    "update:bugfix": ""
   },
   "repository": {
     "type": "git",

@@ -141,20 +141,22 @@ export const getFormData = (formNode) => {
     const names = new Set();
     const formData = new FormData(formNode);
     const returnData = new Map();
-    const nameElements = formNode.querySelectorAll('[name]');
+    const nameElements = formNode.querySelectorAll('input[name], select[name], textarea[name], datalist[name], output[name]');
     
     nameElements.forEach(node => {
+        const tag = returnTag(node);
+        const inputType = node.getAttribute('type');
         names.add({
             name: node.getAttribute('name'),
-            type: node.getAttribute('type') || 'textarea'
+            type: inputType ? inputType : tag
         });
     });
     
     names.forEach(i => {
-        const value = formData.get(i.name);
-        if (i.type == 'number') returnData.set(i.name, parseFloat(value))
+        const value = formData.getAll(i.name);
+        if (i.type == 'number') returnData.set(i.name, parseFloat(value[0]))
         else if (i.type == 'checkbox') returnData.set(i.name, value != null ? value == 'on' ? true : value : false)
-        else returnData.set(i.name, value)
+        else returnData.set(i.name, value[0])
     })
     
     return returnData;

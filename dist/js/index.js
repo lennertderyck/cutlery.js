@@ -1,8 +1,8 @@
 /*
-* cutlery.js 3.5.5 - https://github.com/lennertderyck/cutleryjs
+* cutlery.js 3.6.0 - https://github.com/lennertderyck/cutleryjs
 * Licensed under the GNU GPLv3 license - https://choosealicense.com/licenses/gpl-3.0/#
 *
-* Copyright (c) 2020 Lennert De Ryck
+* Copyright (c) 2021 Lennert De Ryck
 */
 
 /**
@@ -127,10 +127,15 @@ export class Element {
 export const eventCallback = (selector, callback, action = true) => {
     let target = null;
     
-    if (action == true) target = event.target.closest(`[data-action="${selector}"]`);
-    else target = event.target.closest(selector);
+    // TODO: Detect if element has [data-action] selector
     
-    if (target) callback(target);
+    try {
+        if (action == true) target = event.target.closest(`[data-action="${selector}"]`);
+        else target = event.target.closest(selector);
+        if (target) callback(target);
+    } catch (error) {
+        console.error(`Something went wrong on event callback. Use the correct selector – Didn\'t use the [data-action] selector? Add ${false} as third argument`);
+    }
 }
 
 /**
@@ -143,20 +148,22 @@ export const getFormData = (formNode) => {
     const names = new Set();
     const formData = new FormData(formNode);
     const returnData = new Map();
-    const nameElements = formNode.querySelectorAll('[name]');
+    const nameElements = formNode.querySelectorAll('input[name], select[name], textarea[name], datalist[name], output[name]');
     
     nameElements.forEach(node => {
+        const tag = returnTag(node);
+        const inputType = node.getAttribute('type');
         names.add({
             name: node.getAttribute('name'),
-            type: node.getAttribute('type') || 'textarea'
+            type: inputType ? inputType : tag
         });
     });
     
     names.forEach(i => {
-        const value = formData.get(i.name);
-        if (i.type == 'number') returnData.set(i.name, parseFloat(value))
+        const value = formData.getAll(i.name);
+        if (i.type == 'number') returnData.set(i.name, parseFloat(value[0]))
         else if (i.type == 'checkbox') returnData.set(i.name, value != null ? value == 'on' ? true : value : false)
-        else returnData.set(i.name, value)
+        else returnData.set(i.name, value[0])
     })
     
     return returnData;
