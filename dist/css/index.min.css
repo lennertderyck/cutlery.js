@@ -1,5 +1,5 @@
 /*
-* cutlery.js 3.6.0 - https://github.com/lennertderyck/cutleryjs
+* cutlery.js 3.7.0 - https://github.com/lennertderyck/cutleryjs
 * Licensed under the GNU GPLv3 license - https://choosealicense.com/licenses/gpl-3.0/#
 *
 * Copyright (c) 2021 Lennert De Ryck
